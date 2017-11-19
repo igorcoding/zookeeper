@@ -58,6 +58,7 @@ else()
   set(DEFAULT_WANT_CPPUNIT ON)
 endif()
 option(WANT_CPPUNIT "Enables CppUnit and tests" ${DEFAULT_WANT_CPPUNIT})
+option(WANT_ZOO_CLI "Enables cli" ON)
 
 # The function `to_have(in out)` converts a header name like `arpa/inet.h`
 # into an Autotools style preprocessor definition `HAVE_ARPA_INET_H`.
@@ -183,8 +184,10 @@ if(WANT_SYNCAPI AND NOT WIN32)
 endif()
 
 # cli executable
-add_executable(cli src/cli.c)
-target_link_libraries(cli zookeeper)
+if(WANT_ZOO_CLI)
+  add_executable(cli src/cli.c)
+  target_link_libraries(cli zookeeper)
+endif()
 
 # load_gen executable
 if(WANT_SYNCAPI AND NOT WIN32)
